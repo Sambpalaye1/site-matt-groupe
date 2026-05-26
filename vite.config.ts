@@ -13,7 +13,4 @@ export default defineConfig({
     server: { entry: "server" },
     ssr: false,
   },
-  vite: {
-    base: "/site-matt-groupe/",
-  },
 });
