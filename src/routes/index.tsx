@@ -2,7 +2,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { ArrowRight, Shield, Car, Key, Wallet, Ticket, CheckCircle2, Star, MapPin, Clock, BadgeCheck, Sparkles, ChevronDown, Smartphone, CreditCard, Users } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { SiteLayout } from "@/components/SiteLayout";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 import dakarHero from "@/assets/dakar-hero.jpg";
 import appMockup from "@/assets/app-mockup.png";
@@ -131,11 +131,29 @@ function Stats() {
     { k: "98%", v: "Clients satisfaits" },
     { k: "24 000", v: "Assurances générées" },
   ];
+  const [animated, setAnimated] = useState(false);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (entries[0].isIntersecting) {
+          setAnimated(true);
+        }
+      },
+      { threshold: 0.5 }
+    );
+
+    const element = document.getElementById("stats-section");
+    if (element) observer.observe(element);
+
+    return () => observer.disconnect();
+  }, []);
+
   return (
-    <section className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 -mt-12 relative z-10">
+    <section id="stats-section" className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 -mt-12 relative z-10">
       <div className="bg-card rounded-3xl shadow-elegant border border-border p-6 sm:p-8 grid grid-cols-2 lg:grid-cols-4 gap-6">
-        {items.map((it) => (
-          <div key={it.v}>
+        {items.map((it, i) => (
+          <div key={it.v} className={animated ? "animate-fade-up" : "opacity-0"} style={{ animationDelay: `${i * 100}ms` }}>
             <div className="font-display text-3xl lg:text-4xl font-bold text-primary">{it.k}</div>
             <div className="text-sm text-muted-foreground mt-1">{it.v}</div>
           </div>

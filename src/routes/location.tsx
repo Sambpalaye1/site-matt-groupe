@@ -35,6 +35,21 @@ function LocationPage() {
   const [returnDate, setReturnDate] = useState("");
   const [pickupLocation, setPickupLocation] = useState("");
   const [showReservationModal, setShowReservationModal] = useState(false);
+  const [filterType, setFilterType] = useState("");
+  const [filterPrice, setFilterPrice] = useState("");
+  const [filterTransmission, setFilterTransmission] = useState("");
+
+  const filteredCars = CARS.filter((car) => {
+    if (filterType && !car.cat.toLowerCase().includes(filterType)) return false;
+    if (filterTransmission && !car.trans.toLowerCase().includes(filterTransmission)) return false;
+    if (filterPrice) {
+      const price = parseInt(car.price.replace(/\s/g, ""));
+      if (filterPrice === "low" && price >= 25000) return false;
+      if (filterPrice === "medium" && (price < 25000 || price > 50000)) return false;
+      if (filterPrice === "high" && price <= 50000) return false;
+    }
+    return true;
+  });
 
   const handleReserve = (car: typeof CARS[0]) => {
     setSelectedCar(car);
@@ -66,7 +81,7 @@ function LocationPage() {
 
       <section className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-12">
         {/* Filter bar */}
-        <div className="bg-card border border-border rounded-2xl p-4 shadow-soft flex flex-wrap gap-3 items-center">
+        <div className="bg-card border border-border rounded-2xl p-4 shadow-soft flex flex-wrap gap-3 items-center mb-6">
           <div className="flex items-center gap-2 px-3 py-2 rounded-xl bg-muted/60 flex-1 min-w-[180px]">
             <Calendar className="h-4 w-4 text-muted-foreground" />
             <input
@@ -87,6 +102,36 @@ function LocationPage() {
               className="bg-transparent text-sm outline-none flex-1"
             />
           </div>
+          <select
+            value={filterType}
+            onChange={(e) => setFilterType(e.target.value)}
+            className="px-3 py-2 rounded-xl bg-muted/60 text-sm outline-none flex-1 min-w-[140px]"
+          >
+            <option value="">Tous types</option>
+            <option value="citadine">Citadine</option>
+            <option value="suv">SUV</option>
+            <option value="berline">Berline</option>
+            <option value="utilitaire">Utilitaire</option>
+          </select>
+          <select
+            value={filterPrice}
+            onChange={(e) => setFilterPrice(e.target.value)}
+            className="px-3 py-2 rounded-xl bg-muted/60 text-sm outline-none flex-1 min-w-[140px]"
+          >
+            <option value="">Tous prix</option>
+            <option value="low">Moins de 25 000 FCFA</option>
+            <option value="medium">25 000 - 50 000 FCFA</option>
+            <option value="high">Plus de 50 000 FCFA</option>
+          </select>
+          <select
+            value={filterTransmission}
+            onChange={(e) => setFilterTransmission(e.target.value)}
+            className="px-3 py-2 rounded-xl bg-muted/60 text-sm outline-none flex-1 min-w-[140px]"
+          >
+            <option value="">Toutes transmissions</option>
+            <option value="automatique">Automatique</option>
+            <option value="manuelle">Manuelle</option>
+          </select>
           <div className="flex items-center gap-2 px-3 py-2 rounded-xl bg-muted/60 flex-1 min-w-[180px]">
             <MapPin className="h-4 w-4 text-muted-foreground" />
             <input
@@ -108,7 +153,7 @@ function LocationPage() {
         </div>
 
         <div className="mt-8 grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
-          {CARS.map((c) => (
+          {filteredCars.map((c) => (
             <div key={c.name} className="group bg-card rounded-2xl border border-border overflow-hidden hover:shadow-elegant transition-all">
               <div className="aspect-[4/3] bg-muted overflow-hidden">
                 <img src={c.img} alt={c.name} className="h-full w-full object-cover group-hover:scale-105 transition-transform duration-500" loading="lazy" />

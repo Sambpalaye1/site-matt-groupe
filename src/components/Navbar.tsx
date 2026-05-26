@@ -1,9 +1,8 @@
 import { Link } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
-import { Menu, X, Bell, Moon, Sun } from "lucide-react";
+import { Menu, X, Bell } from "lucide-react";
 import { Logo } from "./Logo";
 import { Button } from "@/components/ui/button";
-import { useTheme } from "@/hooks/use-theme";
 
 const NAV = [
   { to: "/", label: "Accueil" },
@@ -18,7 +17,6 @@ const NAV = [
 export function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
-  const { theme, setTheme, resolvedTheme } = useTheme();
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 8);
@@ -51,13 +49,6 @@ export function Navbar() {
           </nav>
 
           <div className="hidden lg:flex items-center gap-2">
-            <button
-              onClick={() => setTheme(resolvedTheme === "dark" ? "light" : "dark")}
-              className="h-9 w-9 grid place-items-center rounded-lg hover:bg-muted transition-colors"
-              aria-label="Toggle theme"
-            >
-              {resolvedTheme === "dark" ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
-            </button>
             <button className="h-9 w-9 grid place-items-center rounded-lg hover:bg-muted text-muted-foreground">
               <Bell className="h-4 w-4" />
             </button>
@@ -91,13 +82,6 @@ export function Navbar() {
               </Link>
             ))}
             <div className="pt-2 flex gap-2">
-              <button
-                onClick={() => setTheme(resolvedTheme === "dark" ? "light" : "dark")}
-                className="h-9 w-9 grid place-items-center rounded-lg hover:bg-muted transition-colors"
-                aria-label="Toggle theme"
-              >
-                {resolvedTheme === "dark" ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
-              </button>
               <Link to="/login" className="flex-1"><Button variant="outline" className="w-full">Connexion</Button></Link>
               <Link to="/login" className="flex-1"><Button variant="hero" className="w-full">Commencer</Button></Link>
             </div>

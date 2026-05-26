@@ -162,6 +162,19 @@ function AssurancePage() {
       </section>
 
       <section className="mx-auto max-w-5xl px-4 py-12">
+        {/* Progress bar */}
+        <div className="mb-8">
+          <div className="flex justify-between items-center mb-2">
+            <span className="text-sm font-medium text-muted-foreground">Étape {step} sur {totalSteps}</span>
+            <span className="text-sm font-medium text-primary">{Math.round(progress)}%</span>
+          </div>
+          <div className="h-2 bg-secondary rounded-full overflow-hidden">
+            <div
+              className="h-full bg-gradient-to-r from-primary to-primary-glow transition-all duration-500 ease-out"
+              style={{ width: `${progress}%` }}
+            />
+          </div>
+        </div>
         {/* Stepper */}
         <div className="mb-8 grid grid-cols-7 gap-1.5">
           {[1, 2, 3, 4, 5, 6, 7].map((n) => (
