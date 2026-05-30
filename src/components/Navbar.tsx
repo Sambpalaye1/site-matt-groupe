@@ -1,6 +1,6 @@
 import { Link } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
-import { Menu, X, Bell } from "lucide-react";
+import { Menu, X, Phone, User } from "lucide-react";
 import { Logo } from "./Logo";
 import { Button } from "@/components/ui/button";
 
@@ -48,15 +48,19 @@ export function Navbar() {
             ))}
           </nav>
 
-          <div className="hidden lg:flex items-center gap-2">
-            <button className="h-9 w-9 grid place-items-center rounded-lg hover:bg-muted text-muted-foreground">
-              <Bell className="h-4 w-4" />
-            </button>
+          <div className="hidden lg:flex items-center gap-6">
+            <a
+              href="tel:+221779746315"
+              className="flex items-center gap-2 text-sm font-semibold text-foreground/80 hover:text-primary transition-colors"
+            >
+              <Phone className="h-4 w-4 text-gold" />
+              <span>77 974 63 15</span>
+            </a>
             <Link to="/login">
-              <Button variant="ghost" size="sm">Connexion</Button>
-            </Link>
-            <Link to="/login">
-              <Button variant="hero" size="sm">Commencer</Button>
+              <Button variant="hero" size="sm" className="flex items-center gap-2 rounded-xl">
+                <User className="h-4 w-4" />
+                Espace Client
+              </Button>
             </Link>
           </div>
 
@@ -81,9 +85,20 @@ export function Navbar() {
                 {item.label}
               </Link>
             ))}
-            <div className="pt-2 flex gap-2">
-              <Link to="/login" className="flex-1"><Button variant="outline" className="w-full">Connexion</Button></Link>
-              <Link to="/login" className="flex-1"><Button variant="hero" className="w-full">Commencer</Button></Link>
+            <div className="pt-3 border-t border-border space-y-3">
+              <a
+                href="tel:+221779746315"
+                className="flex items-center gap-2 px-3 py-2 text-sm font-semibold text-foreground/80 hover:text-primary transition-colors"
+              >
+                <Phone className="h-4 w-4 text-gold" />
+                <span>77 974 63 15</span>
+              </a>
+              <Link to="/login" className="block w-full" onClick={() => setOpen(false)}>
+                <Button variant="hero" className="w-full flex items-center justify-center gap-2 rounded-xl">
+                  <User className="h-4 w-4" />
+                  Espace Client
+                </Button>
+              </Link>
             </div>
           </div>
         )}

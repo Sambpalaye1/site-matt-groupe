@@ -10,14 +10,21 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as VtcRouteImport } from './routes/vtc'
+import { Route as VerseAutoRouteImport } from './routes/verse-auto'
 import { Route as LoginRouteImport } from './routes/login'
 import { Route as LocationRouteImport } from './routes/location'
+import { Route as BilletterieRouteImport } from './routes/billetterie'
 import { Route as AssuranceRouteImport } from './routes/assurance'
 import { Route as IndexRouteImport } from './routes/index'
 
 const VtcRoute = VtcRouteImport.update({
   id: '/vtc',
   path: '/vtc',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const VerseAutoRoute = VerseAutoRouteImport.update({
+  id: '/verse-auto',
+  path: '/verse-auto',
   getParentRoute: () => rootRouteImport,
 } as any)
 const LoginRoute = LoginRouteImport.update({
@@ -28,6 +35,11 @@ const LoginRoute = LoginRouteImport.update({
 const LocationRoute = LocationRouteImport.update({
   id: '/location',
   path: '/location',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const BilletterieRoute = BilletterieRouteImport.update({
+  id: '/billetterie',
+  path: '/billetterie',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AssuranceRoute = AssuranceRouteImport.update({
@@ -44,38 +56,68 @@ const IndexRoute = IndexRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/assurance': typeof AssuranceRoute
+  '/billetterie': typeof BilletterieRoute
   '/location': typeof LocationRoute
   '/login': typeof LoginRoute
+  '/verse-auto': typeof VerseAutoRoute
   '/vtc': typeof VtcRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/assurance': typeof AssuranceRoute
+  '/billetterie': typeof BilletterieRoute
   '/location': typeof LocationRoute
   '/login': typeof LoginRoute
+  '/verse-auto': typeof VerseAutoRoute
   '/vtc': typeof VtcRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/assurance': typeof AssuranceRoute
+  '/billetterie': typeof BilletterieRoute
   '/location': typeof LocationRoute
   '/login': typeof LoginRoute
+  '/verse-auto': typeof VerseAutoRoute
   '/vtc': typeof VtcRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/assurance' | '/location' | '/login' | '/vtc'
+  fullPaths:
+    | '/'
+    | '/assurance'
+    | '/billetterie'
+    | '/location'
+    | '/login'
+    | '/verse-auto'
+    | '/vtc'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/assurance' | '/location' | '/login' | '/vtc'
-  id: '__root__' | '/' | '/assurance' | '/location' | '/login' | '/vtc'
+  to:
+    | '/'
+    | '/assurance'
+    | '/billetterie'
+    | '/location'
+    | '/login'
+    | '/verse-auto'
+    | '/vtc'
+  id:
+    | '__root__'
+    | '/'
+    | '/assurance'
+    | '/billetterie'
+    | '/location'
+    | '/login'
+    | '/verse-auto'
+    | '/vtc'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AssuranceRoute: typeof AssuranceRoute
+  BilletterieRoute: typeof BilletterieRoute
   LocationRoute: typeof LocationRoute
   LoginRoute: typeof LoginRoute
+  VerseAutoRoute: typeof VerseAutoRoute
   VtcRoute: typeof VtcRoute
 }
 
@@ -86,6 +128,13 @@ declare module '@tanstack/react-router' {
       path: '/vtc'
       fullPath: '/vtc'
       preLoaderRoute: typeof VtcRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/verse-auto': {
+      id: '/verse-auto'
+      path: '/verse-auto'
+      fullPath: '/verse-auto'
+      preLoaderRoute: typeof VerseAutoRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/login': {
@@ -100,6 +149,13 @@ declare module '@tanstack/react-router' {
       path: '/location'
       fullPath: '/location'
       preLoaderRoute: typeof LocationRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/billetterie': {
+      id: '/billetterie'
+      path: '/billetterie'
+      fullPath: '/billetterie'
+      preLoaderRoute: typeof BilletterieRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/assurance': {
@@ -122,8 +178,10 @@ declare module '@tanstack/react-router' {
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AssuranceRoute: AssuranceRoute,
+  BilletterieRoute: BilletterieRoute,
   LocationRoute: LocationRoute,
   LoginRoute: LoginRoute,
+  VerseAutoRoute: VerseAutoRoute,
   VtcRoute: VtcRoute,
 }
 export const routeTree = rootRouteImport

@@ -29,6 +29,7 @@ function Home() {
       <Hero />
       <Stats />
       <Services />
+      <VerseAutoSection />
       <HowItWorks />
       <WhyUs />
       <Testimonials />
@@ -56,31 +57,41 @@ function Hero() {
               Nouveau · Disponible à Dakar, Thiès & AIBD
             </div>
 
-            <h1 className="font-display text-4xl sm:text-5xl lg:text-6xl font-bold leading-[1.05] tracking-tight animate-fade-up-delay-1">
-              La mobilité <span className="text-gradient-gold">intelligente</span><br />
-              au Sénégal.
+            <h1 className="font-display text-4xl sm:text-5xl lg:text-6xl font-extrabold leading-[1.05] tracking-tight animate-fade-up-delay-1 uppercase">
+              Vous avancez,<br />
+              <span className="text-gradient-gold">Nous assurons.</span>
             </h1>
 
             <p className="text-lg text-primary-foreground/80 max-w-xl leading-relaxed animate-fade-up-delay-2">
-              Réservez un VTC, souscrivez une assurance auto, louez un véhicule
-              ou payez en FCFA via Wave & Orange Money — depuis une seule application.
+              Transport, assurance, investissement et billetterie : des solutions modernes, rapides et accessibles à tous au Sénégal.
             </p>
 
-            <div className="flex flex-wrap gap-3 animate-fade-up-delay-3">
-              <Link to="/login">
-                <Button variant="hero" size="xl">
-                  Commencer gratuitement <ArrowRight className="h-4 w-4" />
+            {/* Quick Action Grid - matching image */}
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 pt-2 animate-fade-up-delay-3">
+              <Link to="/vtc">
+                <Button className="w-full h-16 bg-[#0066FF] hover:bg-[#0066FF]/90 text-white rounded-2xl flex flex-col items-center justify-center gap-1 font-semibold text-xs border border-white/10 shadow-lg cursor-pointer">
+                  <Car className="h-5 w-5" />
+                  Commander un trajet
                 </Button>
               </Link>
-              <Link to="/vtc">
-                <Button variant="glass" size="xl">Découvrir le VTC</Button>
+              <Link to="/assurance">
+                <Button className="w-full h-16 bg-[#FF8C00] hover:bg-[#FF8C00]/90 text-white rounded-2xl flex flex-col items-center justify-center gap-1 font-semibold text-xs border border-white/10 shadow-lg cursor-pointer">
+                  <Shield className="h-5 w-5" />
+                  Assurer mon véhicule
+                </Button>
               </Link>
-            </div>
-
-            <div className="flex flex-wrap items-center gap-6 pt-6">
-              <TrustItem icon={<BadgeCheck className="h-4 w-4 text-gold" />} text="Chauffeurs vérifiés" />
-              <TrustItem icon={<Shield className="h-4 w-4 text-gold" />} text="Paiements sécurisés" />
-              <TrustItem icon={<Clock className="h-4 w-4 text-gold" />} text="Disponible 24h/24" />
+              <Link to="/verse-auto">
+                <Button className="w-full h-16 bg-[#10B981] hover:bg-[#10B981]/90 text-white rounded-2xl flex flex-col items-center justify-center gap-1 font-semibold text-xs border border-white/10 shadow-lg cursor-pointer">
+                  <Wallet className="h-5 w-5" />
+                  Investir avec Verse Auto
+                </Button>
+              </Link>
+              <Link to="/billetterie">
+                <Button className="w-full h-16 bg-[#8B5CF6] hover:bg-[#8B5CF6]/90 text-white rounded-2xl flex flex-col items-center justify-center gap-1 font-semibold text-xs border border-white/10 shadow-lg cursor-pointer">
+                  <Ticket className="h-5 w-5" />
+                  Réserver un billet
+                </Button>
+              </Link>
             </div>
           </div>
 
@@ -115,47 +126,28 @@ function Hero() {
   );
 }
 
-function TrustItem({ icon, text }: { icon: React.ReactNode; text: string }) {
-  return (
-    <div className="flex items-center gap-2 text-sm text-primary-foreground/80">
-      {icon} {text}
-    </div>
-  );
-}
-
-/* ───────── Stats ───────── */
+/* ───────── Stats / Features Banner ───────── */
 function Stats() {
   const items = [
-    { k: "12 400+", v: "Chauffeurs actifs" },
-    { k: "850 K", v: "Courses réalisées" },
-    { k: "98%", v: "Clients satisfaits" },
-    { k: "24 000", v: "Assurances générées" },
+    { icon: MapPin, title: "Suivi GPS en temps réel", desc: "Suivez votre véhicule à tout moment." },
+    { icon: CreditCard, title: "Paiement sécurisé", desc: "Wave, Orange Money & Cash." },
+    { icon: Clock, title: "Assistance 24h/24", desc: "Notre équipe est là pour vous." },
+    { icon: BadgeCheck, title: "Gestion pro", desc: "Rigueur et transparence totale." },
   ];
-  const [animated, setAnimated] = useState(false);
-
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        if (entries[0].isIntersecting) {
-          setAnimated(true);
-        }
-      },
-      { threshold: 0.5 }
-    );
-
-    const element = document.getElementById("stats-section");
-    if (element) observer.observe(element);
-
-    return () => observer.disconnect();
-  }, []);
 
   return (
-    <section id="stats-section" className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 -mt-12 relative z-10">
-      <div className="bg-card rounded-3xl shadow-elegant border border-border p-6 sm:p-8 grid grid-cols-2 lg:grid-cols-4 gap-6">
-        {items.map((it, i) => (
-          <div key={it.v} className={animated ? "animate-fade-up" : "opacity-0"} style={{ animationDelay: `${i * 100}ms` }}>
-            <div className="font-display text-3xl lg:text-4xl font-bold text-primary">{it.k}</div>
-            <div className="text-sm text-muted-foreground mt-1">{it.v}</div>
+    <section className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 -mt-12 relative z-10">
+      <div className="bg-primary text-primary-foreground rounded-3xl shadow-elegant border border-white/10 p-6 sm:p-8 grid grid-cols-2 lg:grid-cols-4 gap-6 relative overflow-hidden">
+        <div className="absolute inset-0 grid-pattern opacity-10 pointer-events-none" />
+        {items.map((it) => (
+          <div key={it.title} className="flex flex-col gap-2 relative z-10">
+            <div className="h-10 w-10 rounded-xl bg-white/10 grid place-items-center text-gold shrink-0">
+              <it.icon className="h-5 w-5" />
+            </div>
+            <div>
+              <div className="font-display font-semibold text-sm sm:text-base text-white">{it.title}</div>
+              <div className="text-xs text-white/70 mt-0.5 leading-normal">{it.desc}</div>
+            </div>
           </div>
         ))}
       </div>
@@ -166,21 +158,19 @@ function Stats() {
 /* ───────── Services ───────── */
 function Services() {
   const services = [
-    { icon: Shield, title: "Assurance Auto", desc: "Souscrivez en 3 minutes, attestation PDF avec QR code instantanée.", to: "/assurance", color: "bg-success/10 text-success" },
-    { icon: Car, title: "VTC", desc: "Réservez un chauffeur professionnel partout à Dakar et alentours.", to: "/vtc", color: "bg-gold/15 text-gold-foreground" },
-    { icon: Key, title: "Location Véhicules", desc: "Citadines, berlines, SUV, minibus — réservation flexible 24/7.", to: "/location", color: "bg-primary/10 text-primary" },
-    { icon: Wallet, title: "Verse Auto", desc: "Paiements mobiles Wave et Orange Money intégrés en FCFA.", to: "/verse-auto", color: "bg-success/10 text-success" },
-    { icon: Ticket, title: "Billetterie", desc: "Réservez vos trajets longue distance et événements urbains.", to: "/billetterie", color: "bg-gold/15 text-gold-foreground" },
-    { icon: Users, title: "Chauffeur dédié", desc: "Service premium avec chauffeur attitré pour entreprises.", to: "/vtc", color: "bg-primary/10 text-primary" },
+    { icon: Car, title: "Transport / Mobilité", desc: "Commandez un véhicule en toute simplicité et sécurité. Disponible 24h/24 à Dakar.", to: "/vtc", color: "bg-[#0066FF]/10 text-[#0066FF]" },
+    { icon: Shield, title: "Assurance Auto", desc: "Assurez votre véhicule en quelques minutes seulement. Paiement facile avec Wave.", to: "/assurance", color: "bg-[#FF8C00]/10 text-[#FF8C00]" },
+    { icon: Wallet, title: "Verse Auto", desc: "Investissez à 2 ou 3 personnes ou confiez votre véhicule et gagnez des revenus chaque mois.", to: "/verse-auto", color: "bg-[#10B981]/10 text-[#10B981]" },
+    { icon: Ticket, title: "Billetterie", desc: "Réservez vos billets d'avion en toute simplicité au meilleur prix.", to: "/billetterie", color: "bg-[#8B5CF6]/10 text-[#8B5CF6]" },
   ];
   return (
     <section className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-24">
       <SectionHeader
         eyebrow="Nos services"
-        title="Une plateforme, tous vos besoins mobilité"
-        subtitle="Du trajet quotidien à l'assurance, Matt Group réunit l'écosystème automobile sénégalais."
+        title="Tout ce dont vous avez besoin, en un seul endroit"
+        subtitle="Du trajet quotidien à l'assurance en passant par l'investissement, Matt Group réunit le meilleur de l'écosystème automobile."
       />
-      <div className="mt-12 grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
+      <div className="mt-12 grid sm:grid-cols-2 lg:grid-cols-4 gap-5">
         {services.map((s) => (
           <Link key={s.title} to={s.to as any} className="group relative bg-card rounded-2xl p-6 border border-border hover:border-gold/40 hover:shadow-elegant transition-all duration-300">
             <div className={`h-12 w-12 rounded-xl grid place-items-center ${s.color}`}>
@@ -189,7 +179,7 @@ function Services() {
             <h3 className="mt-5 font-display font-semibold text-lg text-foreground">{s.title}</h3>
             <p className="mt-2 text-sm text-muted-foreground leading-relaxed">{s.desc}</p>
             <div className="mt-4 inline-flex items-center gap-1.5 text-sm font-medium text-primary group-hover:gap-2.5 transition-all">
-              Découvrir <ArrowRight className="h-4 w-4" />
+              En savoir plus <ArrowRight className="h-4 w-4" />
             </div>
           </Link>
         ))}
@@ -198,18 +188,81 @@ function Services() {
   );
 }
 
+/* ───────── Verse Auto Section ───────── */
+function VerseAutoSection() {
+  const points = [
+    "Revenus mensuels garantis",
+    "Suivi GPS en temps réel",
+    "Entretien et gestion inclus",
+    "Transparence et confiance",
+  ];
+
+  return (
+    <section className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-24 border-t border-border">
+      <div className="grid lg:grid-cols-12 gap-12 items-center">
+        <div className="lg:col-span-7 space-y-6">
+          <div className="inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.18em] text-gold bg-gold/15 px-3 py-1 rounded-full">
+            Verse Auto
+          </div>
+          <h2 className="font-display text-3xl lg:text-4xl font-bold text-foreground leading-tight">
+            Votre voiture peut vous rapporter <span className="text-gradient-gold">chaque mois.</span>
+          </h2>
+          <p className="text-muted-foreground max-w-xl leading-relaxed text-sm lg:text-base">
+            Investissez à 2 ou 3 personnes ou confiez votre véhicule à MATT GROUP CORP et percevez des revenus mensuels.
+          </p>
+
+          <div className="grid grid-cols-2 gap-4">
+            {points.map((pt) => (
+              <div key={pt} className="flex items-center gap-3">
+                <CheckCircle2 className="h-5 w-5 text-gold shrink-0" />
+                <span className="font-semibold text-sm text-foreground">{pt}</span>
+              </div>
+            ))}
+          </div>
+
+          <div className="pt-4">
+            <Link to="/verse-auto">
+              <Button variant="hero" size="lg" className="rounded-xl">
+                Découvrir Verse Auto <ArrowRight className="h-4 w-4" />
+              </Button>
+            </Link>
+          </div>
+        </div>
+
+        <div className="lg:col-span-5 relative">
+          <div className="absolute -inset-4 bg-gradient-to-tr from-gold/10 to-primary/5 blur-2xl rounded-3xl" />
+          <div className="relative bg-card border border-border rounded-3xl p-8 shadow-elegant flex flex-col justify-between min-h-[250px]">
+            <div className="space-y-4">
+              <div className="h-12 w-12 rounded-xl bg-[#10B981]/15 text-[#10B981] grid place-items-center">
+                <Wallet className="h-6 w-6" />
+              </div>
+              <div>
+                <div className="text-xs text-muted-foreground font-semibold uppercase tracking-wider">Revenus mensuels</div>
+                <div className="font-display text-3xl font-extrabold text-primary mt-1">à partir de 150 000 FCFA</div>
+              </div>
+              <p className="text-xs text-muted-foreground leading-relaxed">
+                Rejoignez plus de 200 investisseurs qui nous font déjà confiance pour maximiser le rendement de leurs véhicules au Sénégal.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
 /* ───────── How it works ───────── */
 function HowItWorks() {
   const steps = [
-    { icon: Smartphone, title: "Créez votre compte", desc: "Inscription en 30 secondes avec votre numéro." },
-    { icon: MapPin, title: "Réservez", desc: "Choisissez VTC, location ou assurance." },
-    { icon: CreditCard, title: "Payez", desc: "Wave, Orange Money, carte ou cash." },
-    { icon: CheckCircle2, title: "Suivez en temps réel", desc: "Notifications & GPS intégré." },
+    { icon: Smartphone, title: "Choisissez votre service", desc: "Transport, assurance, investissement ou billetterie." },
+    { icon: MapPin, title: "Entrez vos informations", desc: "Remplissez le formulaire en quelques secondes." },
+    { icon: CreditCard, title: "Réponse rapide", desc: "Notre équipe vous contacte rapidement pour confirmer." },
+    { icon: CheckCircle2, title: "Profitez du service", desc: "Nous nous occupons du reste, vous profitez !" },
   ];
   return (
     <section className="bg-secondary/40 py-24">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <SectionHeader eyebrow="Comment ça marche" title="Simple, rapide, sécurisé" subtitle="Quatre étapes pour profiter de tous nos services." />
+        <SectionHeader eyebrow="Comment ça marche" title="Simple, rapide, sécurisé" subtitle="Quatre étapes simples pour profiter de l'ensemble de nos offres." />
         <div className="mt-14 relative">
           <div className="hidden lg:block absolute left-0 right-0 top-7 h-px bg-gradient-to-r from-transparent via-border to-transparent" />
           <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-8">
@@ -220,7 +273,7 @@ function HowItWorks() {
                   <span className="absolute -top-2 -right-2 h-6 w-6 rounded-full bg-gold text-gold-foreground text-xs font-bold grid place-items-center">{i + 1}</span>
                 </div>
                 <h3 className="mt-5 font-display font-semibold text-foreground text-center lg:text-left">{s.title}</h3>
-                <p className="mt-1.5 text-sm text-muted-foreground text-center lg:text-left">{s.desc}</p>
+                <p className="mt-1.5 text-sm text-muted-foreground text-center lg:text-left leading-relaxed">{s.desc}</p>
               </div>
             ))}
           </div>
@@ -279,9 +332,9 @@ function WhyUs() {
 /* ───────── Testimonials ───────── */
 function Testimonials() {
   const ts = [
-    { name: "Aïssatou D.", role: "Plateau, Dakar", img: t1, text: "Je commande mes courses chaque jour. Les chauffeurs sont ponctuels et le paiement Wave est ultra fluide." },
-    { name: "Cheikh M.", role: "Chauffeur partenaire", img: t2, text: "Depuis Matt Group, mes revenus ont doublé. La plateforme est claire et le support local répond rapidement." },
-    { name: "Fatou S.", role: "Almadies", img: t3, text: "L'assurance digitale m'a sauvée. J'ai eu mon attestation en 4 minutes, dimanche soir." },
+    { name: "Mamadou S.", role: "Dakar", img: t1, text: "Service rapide, chauffeurs professionnels et véhicules propres. Je recommande vivement !" },
+    { name: "Aïssatou M.", role: "Verse Auto", img: t2, text: "Grâce à Verse Auto, je gagne chaque mois sans avoir à m'occuper de ma voiture. Excellente initiative !" },
+    { name: "Cheikh B.", role: "Plateau", img: t3, text: "Assurance auto simple et rapide. Paiement avec Wave, c'est vraiment pratique." },
   ];
   return (
     <section className="bg-secondary/40 py-24">
@@ -372,7 +425,7 @@ function SectionHeader({ eyebrow, title, subtitle, align = "center" }: { eyebrow
   return (
     <div className={`max-w-2xl ${a}`}>
       {eyebrow && (
-        <div className={`inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.18em] text-gold-foreground bg-gold/15 px-3 py-1 rounded-full`}>
+        <div className={`inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.18em] text-gold bg-gold/15 px-3 py-1 rounded-full`}>
           {eyebrow}
         </div>
       )}
